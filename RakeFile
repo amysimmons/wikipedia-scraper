@@ -1,11 +1,9 @@
 require 'rubygems'
-require 'nokogiri' 
-require 'open-uri' 
 require_relative './wikipedia'
 
 # in the console run rake scrape
 desc "Scraping Wikipedia"
-task :scrape do 
+task :scrape do
   puts "Scraping Wikipedia"
   populations = WikipediaScraper.scrape
   populations.each do |country, population|
@@ -15,23 +13,21 @@ end
 
 # in the console run rake json
 desc "Generate JSON file"
-task :json do 
+task :json do
   puts "Generating JSON file"
-  @populations = WikipediaScraper.scrape
-  directory "json"
-  File.open("json/populations.json","w") do |f|
-    f.write(@populations.to_json)
+  populations = WikipediaScraper.scrape
+  File.open("populations.json","w") do |f|
+    f.write(populations.to_json)
   end
 end
 
 # in the console run rake csv
 desc "Generate CSV file"
-task :csv do 
+task :csv do
   puts "Generating CSV file"
-  @populations = WikipediaScraper.scrape
-  directory "csv"
-  CSV.open("csv/populations.csv","wb") do |csv|
-    @populations.to_a.each do |elem|
+  populations = WikipediaScraper.scrape
+  CSV.open("populations.csv","wb") do |csv|
+    populations.to_a.each do |elem|
       csv << elem
     end
   end
